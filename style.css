@@ -1,0 +1,64 @@
+.container {
+  position: relative;
+  margin: 15px 32%;
+  width: 1080px;
+  height: 90vh;
+  background-color: antiquewhite;
+}
+
+/* Imput form */
+
+.inputForm {
+  position: absolute;
+  width: 25vw;
+  height: 80vh;
+  background-color: rgb(255, 241, 146);
+  top: 45px;
+  left: 60px;
+}
+
+#noteSubmit {
+  padding: 15px;
+  margin: 5px;
+}
+
+/* Main table */
+
+.notes {
+  position: absolute;
+  margin: 20px 90px;
+  width: 900px;
+  height: 45vh;
+  background-color: rgb(252, 203, 138);
+}
+
+.active {
+  border: 1px solid;
+  display: inline-block;
+  margin: 5px 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Archive table */
+
+.archive {
+  top: 60%;
+  position: absolute;
+  margin: 20px 90px;
+  width: 900px;
+  height: 20vh;
+  background-color: rgb(252, 203, 138);
+}
+
+.arcTable {
+  margin: 0 auto;
+}
+
+.archived {
+  border: 1px solid;
+  display: inline-block;
+  margin: 5px 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

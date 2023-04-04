@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="D:\JavaScript Learning\Pet\things\style.css" />
+  </head>
+  <body>
+    <div class="inputForm">
+      <form>
+        <h1>Enter your note</h1>
+        <input type="text" id="noteName" name="ntName" /><br />
+        <h1>Enter your description to it</h1>
+        <input type="text" id="noteDisc" name="ntDisc" /><br />
+        <h1>Enter it's category</h1>
+        <input type="text" id="noteCat" name="ntCat" /><br />
+        <button id="noteSubmit">Create your note</button>
+      </form>
+    </div>
+    <div class="container">
+      <div class="notes">
+        <table id="table">
+          <thead>
+            <tr>
+              <th class="active">Name</th>
+              <th class="active">Created</th>
+              <th class="active">Category</th>
+              <th class="active">Content</th>
+              <th class="active">Dates</th>
+              <th class="active">Actions</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+
+      <div class="archive">
+        <table class="arcTable">
+          <th class="archived">Name</th>
+          <th class="archived">Created</th>
+          <th class="archived">Category</th>
+          <th class="archived">Content</th>
+          <th class="archived">Dates</th>
+          <th class="archived">Actions</th>
+        </table>
+      </div>
+    </div>
+    <script src="D:\JavaScript Learning\Pet\things\script.js"></script>
+  </body>
+</html>
