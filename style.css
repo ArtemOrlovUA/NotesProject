@@ -33,11 +33,9 @@
 }
 
 .active {
-  border: 1px solid;
-  display: inline-block;
-  margin: 5px 30px;
-  padding-left: 15px;
-  padding-right: 15px;
+  border: 3px solid;
+  width: 200px;
+  height: 30px;
 }
 
 /* Archive table */
@@ -51,14 +49,8 @@
   background-color: rgb(252, 203, 138);
 }
 
-.arcTable {
-  margin: 0 auto;
-}
-
 .archived {
-  border: 1px solid;
-  display: inline-block;
-  margin: 5px 30px;
-  padding-left: 15px;
-  padding-right: 15px;
+  border: 3px solid;
+  width: 200px;
+  height: 30px;
 }

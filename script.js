@@ -11,9 +11,7 @@ const addMovie = (ev) => {
 
   notes.push(note);
 
-  let tbody = document.createElement('tbody');
-
-  document.getElementById('table').appendChild(tbody);
+  tbody = document.getElementById('tbodyActive');
 
   let tr = document.createElement('tr');
 
