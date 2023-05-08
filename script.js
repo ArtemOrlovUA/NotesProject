@@ -84,9 +84,11 @@ const addNote = (ev) => {
     tr.appendChild(tdName).innerText = note.name;
 
     let tdCreated = document.createElement('td');
+    tdCreated.style.textAlign = 'center';
     tr.appendChild(tdCreated).innerText = note.date;
 
     let tdCatg = document.createElement('td');
+    tdCatg.style.textAlign = 'center';
     tr.appendChild(tdCatg).innerText = note.category;
 
     let tdDisc = document.createElement('td');

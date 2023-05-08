@@ -46,6 +46,9 @@ form input[type='text'] {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  font-family: Montserrat;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
 }
 
 #noteSubmit:hover {
@@ -57,8 +60,18 @@ form input[type='text'] {
 }
 
 /* Main table */
+
+#activeNotesHeader {
+  position: absolute;
+  left: 10%;
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
 .notes {
   position: absolute;
+  top: 5%;
   margin: 20px 90px;
   width: 900px;
   height: 47vh;
@@ -101,9 +114,18 @@ form input[type='text'] {
 
 /* Archive table */
 
+#archivedNotesHeader {
+  position: absolute;
+  top: 61.5%;
+  left: 10%;
+  font-family: Montserrat, sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
 .archive {
   position: absolute;
-  top: 60%;
+  top: 67%;
   margin: 20px 90px;
   width: 900px;
   height: 25vh;

@@ -14,13 +14,15 @@
         <h1>Enter your note</h1>
         <input maxlength="20" type="text" id="noteName" name="ntName" /><br />
         <h1>Enter your description <br />to it</h1>
-        <input maxlength="60" type="text" id="noteDisc" name="ntDisc" /><br />
+        <input maxlength="40" type="text" id="noteDisc" name="ntDisc" /><br />
         <h1>Enter it's category</h1>
         <input maxlength="15" type="text" id="noteCat" name="ntCat" /><br />
         <button id="noteSubmit">Create your note</button>
       </form>
     </div>
     <div class="container">
+      <h1 id="activeNotesHeader">Active notes</h1>
+      <h1 id="archivedNotesHeader">Archived notes</h1>
       <div class="notes">
         <table id="table">
           <thead id="theadActive">
