@@ -4,9 +4,25 @@
   width: 1080px;
   height: 90vh;
   background-color: antiquewhite;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
 /* Imput form */
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input[type='text'] {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
 
 .inputForm {
   position: absolute;
@@ -15,43 +31,101 @@
   background-color: rgb(255, 241, 146);
   top: 45px;
   left: 60px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
 #noteSubmit {
-  padding: 15px;
+  padding: 10px;
   margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f3b23a;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#noteSubmit:hover {
+  background-color: #e59500;
+}
+
+.inputForm h1 {
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* Main table */
-
 .notes {
   position: absolute;
   margin: 20px 90px;
   width: 900px;
-  height: 45vh;
+  height: 47vh;
   background-color: rgb(252, 203, 138);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Montserrat', sans-serif;
 }
 
-#table {
-  overflow-y: visible;
-  overflow-x: hidden;
+.notes table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.active {
-  border: 3px solid;
-  width: 200px;
-  height: 30px;
+.notes th,
+.notes td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.notes th {
+  background-color: #f3b23a;
+  color: #fff;
+}
+
+.notes tr:hover {
+  background-color: #ffb429;
 }
 
 /* Archive table */
 
 .archive {
-  top: 60%;
   position: absolute;
+  top: 60%;
   margin: 20px 90px;
   width: 900px;
-  height: 20vh;
+  height: 25vh;
   background-color: rgb(252, 203, 138);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.archive table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.archive th,
+.archive td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.archive th {
+  background-color: #f3b23a;
+  color: #fff;
+}
+
+.archive tr:hover {
+  background-color: #ffb429;
 }
 
 .archived {
