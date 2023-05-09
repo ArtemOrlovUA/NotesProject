@@ -4,11 +4,9 @@ const moveNote = (tr, tbodyArchive, tbodyActive) => {
   if (tbodyActive.contains(tr)) {
     tbodyActive.removeChild(tr);
     tbodyArchive.appendChild(tr);
-    tr.querySelector('button').innerText = 'To act';
   } else {
     tbodyArchive.removeChild(tr);
     tbodyActive.appendChild(tr);
-    tr.querySelector('button').innerText = 'To arc';
   }
 };
 
@@ -100,35 +98,77 @@ const addNote = (ev) => {
     let tdActions = document.createElement('td');
     tdActions.style.width = '152.36px';
     tr.appendChild(tdActions);
-    let archiveDiv = document.createElement('div');
-    archiveDiv.style.width = '152.36px';
-    tdActions.appendChild(archiveDiv);
+    let actionsDiv = document.createElement('div');
+    actionsDiv.style.width = '152.36px';
+    tdActions.appendChild(actionsDiv);
+
     let archiveButton = document.createElement('button');
-    archiveButton.innerText = 'To arc';
-    archiveButton.name = 'Arc';
-    archiveButton.style.fontSize = '1.2em';
-    archiveButton.style.padding = '10px 2px';
+    archiveButton.name = 'toArchiveButton';
     archiveButton.classList.add('archive-btn');
-    archiveDiv.appendChild(archiveButton);
+    archiveButton.innerHTML = '<ion-icon name="archive-outline"></ion-icon>';
+    actionsDiv.appendChild(archiveButton);
     archiveButton.addEventListener('click', () => {
       let tbodyArchive = document.getElementById('tbodyArchive');
       moveNote(tr, tbodyArchive, tbodyActive);
       console.log(checkTableRowParent(tr));
     });
-    console.log(note.active);
 
     let deleteButton = document.createElement('button');
-    deleteButton.innerText = 'Del';
-    deleteButton.name = 'Arc';
-    deleteButton.style.fontSize = '1.2em';
-    deleteButton.style.padding = '10px 10px';
-    deleteButton.style.margin = '0px 5px';
-    deleteButton.classList.add('archive-btn');
-    archiveDiv.appendChild(deleteButton);
+    deleteButton.name = 'toDeleteButton';
+    deleteButton.classList.add('delete-btn');
+    deleteButton.innerHTML = '<ion-icon name="trash-outline"></ion-icon>';
+    actionsDiv.appendChild(deleteButton);
     deleteButton.addEventListener('click', () => {
       let tbodyArchive = document.getElementById('tbodyArchive');
       deleteNote(tr, tbodyArchive, tbodyActive);
     });
+
+    // Create button element
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-btn');
+    editButton.innerHTML = '<ion-icon name="create-outline"></ion-icon>';
+
+    // Create empty div element
+    const divElement = document.createElement('div');
+    divElement.style.position = 'fixed';
+    divElement.style.top = '50%';
+    divElement.style.left = '50%';
+    divElement.style.transform = 'translate(-50%, -50%)';
+    divElement.style.width = '300px';
+    divElement.style.height = '200px';
+    divElement.style.backgroundColor = 'white';
+    divElement.style.borderRadius = '5px';
+    divElement.style.boxShadow = '0px 2px 8px rgba(0, 0, 0, 0.3)';
+    divElement.style.display = 'none';
+
+    // Create close button element
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+
+    // Add click event listener to open button
+    editButton.addEventListener('click', () => {
+      divElement.style.display = 'block';
+    });
+
+    // Add click event listener to close button
+    closeButton.addEventListener('click', () => {
+      divElement.style.display = 'none';
+    });
+
+    // Add click event listener to div element to close when clicked outside
+    divElement.addEventListener('click', (event) => {
+      if (event.target === divElement) {
+        divElement.style.display = 'none';
+      }
+    });
+
+    // Append elements to document body
+    actionsDiv.appendChild(editButton);
+    divElement.appendChild(closeButton);
+    document.body.appendChild(divElement);
 
     document.forms[0].reset();
   }

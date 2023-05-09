@@ -71,6 +71,8 @@ form input[type='text'] {
 
 .notes {
   position: absolute;
+  overflow-y: auto;
+  overflow-x: auto;
   top: 5%;
   margin: 20px 90px;
   width: 900px;
@@ -86,8 +88,7 @@ form input[type='text'] {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
-  width: calc(100% / 6); /* divide the width evenly for all 6 th elements */
-  box-sizing: border-box; /* include padding and border in the total width */
+  width: calc(100% / 6);
 }
 
 .notes table {
@@ -125,6 +126,8 @@ form input[type='text'] {
 
 .archive {
   position: absolute;
+  overflow-y: auto;
+  overflow-x: auto;
   top: 67%;
   margin: 20px 90px;
   width: 900px;
@@ -140,8 +143,7 @@ form input[type='text'] {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
-  width: calc(100% / 6); /* divide the width evenly for all 6 th elements */
-  box-sizing: border-box; /* include padding and border in the total width */
+  width: calc(100% / 6);
 }
 
 .archive table {
@@ -170,4 +172,61 @@ form input[type='text'] {
   border: 3px solid;
   width: 200px;
   height: 30px;
+}
+
+/* Icons */
+
+.archive-btn {
+  background-color: #ffc65c;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.archive-btn:hover {
+  background-color: #e59500;
+}
+
+.archive-btn ion-icon {
+  font-size: 24px;
+}
+
+.delete-btn {
+  margin-left: 5px;
+  background-color: #ffc65c;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #e59500;
+}
+
+.delete-btn ion-icon {
+  font-size: 24px;
+}
+
+.edit-btn {
+  background-color: #ffc65c;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #e59500;
+}
+
+.edit-btn ion-icon {
+  font-size: 24px;
 }
