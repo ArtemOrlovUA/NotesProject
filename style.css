@@ -1,7 +1,7 @@
 .container {
   position: relative;
   margin: 15px 32%;
-  width: 1080px;
+  width: 64vw;
   height: 90vh;
   background-color: antiquewhite;
   border-radius: 15px;
@@ -30,7 +30,7 @@ form input[type='text'] {
   height: 80vh;
   background-color: rgb(255, 241, 146);
   top: 45px;
-  left: 60px;
+  left: 30px;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
@@ -62,19 +62,19 @@ form input[type='text'] {
 /* Main table */
 
 #activeNotesHeader {
-  position: absolute;
-  left: 10%;
+  position: relative;
+  top: 2%;
+  left: 5%;
   font-family: Montserrat, sans-serif;
   font-size: 24px;
-  margin-bottom: 10px;
 }
 
 .notes {
-  position: absolute;
+  position: relative;
   overflow-y: auto;
   overflow-x: auto;
-  top: 5%;
-  margin: 20px 90px;
+  top: -7%;
+  margin: 20px;
   width: 900px;
   height: 47vh;
   background-color: rgb(252, 203, 138);
@@ -116,20 +116,19 @@ form input[type='text'] {
 /* Archive table */
 
 #archivedNotesHeader {
-  position: absolute;
-  top: 61.5%;
-  left: 10%;
+  position: relative;
+  top: 56%;
+  left: 5%;
   font-family: Montserrat, sans-serif;
   font-size: 24px;
-  margin-bottom: 10px;
 }
 
 .archive {
-  position: absolute;
+  position: relative;
   overflow-y: auto;
   overflow-x: auto;
-  top: 67%;
-  margin: 20px 90px;
+  top: -1.5%;
+  margin: 20px;
   width: 900px;
   height: 25vh;
   background-color: rgb(252, 203, 138);
@@ -177,9 +176,10 @@ form input[type='text'] {
 /* Icons */
 
 .archive-btn {
-  background-color: #ffc65c;
+  margin-left: 7px;
+  background-color: #f3b23a;
   border: none;
-  color: white;
+  color: black;
   padding: 5px 10px;
   text-align: center;
   cursor: pointer;
@@ -196,9 +196,9 @@ form input[type='text'] {
 
 .delete-btn {
   margin-left: 5px;
-  background-color: #ffc65c;
+  background-color: #f3b23a;
   border: none;
-  color: white;
+  color: black;
   padding: 5px 10px;
   text-align: center;
   cursor: pointer;
@@ -214,9 +214,10 @@ form input[type='text'] {
 }
 
 .edit-btn {
-  background-color: #ffc65c;
+  background-color: #f3b23a;
+  margin-left: 5px;
   border: none;
-  color: white;
+  color: black;
   padding: 5px 10px;
   text-align: center;
   cursor: pointer;
@@ -229,4 +230,61 @@ form input[type='text'] {
 
 .edit-btn ion-icon {
   font-size: 24px;
+}
+
+/* The window of editing notes */
+
+.editWindow-div {
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  width: 25vw;
+  height: 75vh;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f3b23a;
+  display: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.editClose-btn {
+  position: absolute;
+  top: 90%;
+  right: 5%;
+}
+
+input[type='text'],
+textarea {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  display: block;
+}
+
+.editMainLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  margin-left: 7%;
+}
+
+.editLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  margin-left: 5%;
+}
+
+.editInputField {
+  margin: 10px;
+  max-width: 300px;
+}
+
+.saveChanges-btn {
+  position: absolute;
+  top: 85%;
+  left: 37%;
 }

@@ -18,6 +18,12 @@ const deleteNote = (tr, tbodyArchive, tbodyActive) => {
   }
 };
 
+function updateNoteData(nameInput, catgInput, discInput, tdName, tdCatg, tdDisc) {
+  tdName.innerText = nameInput.value;
+  tdCatg.innerText = catgInput.value;
+  tdDisc.innerText = discInput.value;
+}
+
 function checkTableRowParent(tr) {
   let parent = tr.parentElement;
 
@@ -63,8 +69,8 @@ const addNote = (ev) => {
     alert('You added maximum notes!');
   } else {
     let note = {
-      date: getNoteTime(new Date(Date.now())),
       name: document.getElementById('noteName').value,
+      date: getNoteTime(new Date(Date.now())),
       discription: document.getElementById('noteDisc').value,
       category: document.getElementById('noteCat').value,
       active: true,
@@ -79,6 +85,7 @@ const addNote = (ev) => {
     tbodyActive.appendChild(tr);
 
     let tdName = document.createElement('td');
+    tdName.style.textAlign = 'center';
     tr.appendChild(tdName).innerText = note.name;
 
     let tdCreated = document.createElement('td');
@@ -90,6 +97,7 @@ const addNote = (ev) => {
     tr.appendChild(tdCatg).innerText = note.category;
 
     let tdDisc = document.createElement('td');
+    tdDisc.style.textAlign = 'center';
     tr.appendChild(tdDisc).innerText = note.discription;
 
     let tdDates = document.createElement('td');
@@ -123,52 +131,76 @@ const addNote = (ev) => {
       deleteNote(tr, tbodyArchive, tbodyActive);
     });
 
-    // Create button element
     const editButton = document.createElement('button');
     editButton.classList.add('edit-btn');
     editButton.innerHTML = '<ion-icon name="create-outline"></ion-icon>';
+    actionsDiv.appendChild(editButton);
+    // Add click event listener to edit button
+    editButton.addEventListener('click', () => {
+      editWindowDiv.style.display = 'block';
+    });
 
     // Create empty div element
-    const divElement = document.createElement('div');
-    divElement.style.position = 'fixed';
-    divElement.style.top = '50%';
-    divElement.style.left = '50%';
-    divElement.style.transform = 'translate(-50%, -50%)';
-    divElement.style.width = '300px';
-    divElement.style.height = '200px';
-    divElement.style.backgroundColor = 'white';
-    divElement.style.borderRadius = '5px';
-    divElement.style.boxShadow = '0px 2px 8px rgba(0, 0, 0, 0.3)';
-    divElement.style.display = 'none';
+    const editWindowDiv = document.createElement('div');
+    editWindowDiv.classList.add('editWindow-div');
+    document.body.appendChild(editWindowDiv);
 
     // Create close button element
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Close';
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '10px';
-    closeButton.style.right = '10px';
-
-    // Add click event listener to open button
-    editButton.addEventListener('click', () => {
-      divElement.style.display = 'block';
-    });
-
+    closeButton.classList.add('editClose-btn');
+    editWindowDiv.appendChild(closeButton);
     // Add click event listener to close button
     closeButton.addEventListener('click', () => {
-      divElement.style.display = 'none';
+      editWindowDiv.style.display = 'none';
     });
 
-    // Add click event listener to div element to close when clicked outside
-    divElement.addEventListener('click', (event) => {
-      if (event.target === divElement) {
-        divElement.style.display = 'none';
-      }
-    });
+    // Create name input field
+    const nameLabel = document.createElement('label');
+    nameLabel.classList.add('editLabel');
+    nameLabel.textContent = 'Name:';
+    editWindowDiv.appendChild(nameLabel);
+    const nameInput = document.createElement('input');
+    nameInput.classList.add('editInputField');
+    nameInput.type = 'text';
+    nameInput.maxLength = 20;
+    editWindowDiv.appendChild(nameInput);
 
-    // Append elements to document body
-    actionsDiv.appendChild(editButton);
-    divElement.appendChild(closeButton);
-    document.body.appendChild(divElement);
+    // Create category input field
+    const categoryLabel = document.createElement('label');
+    categoryLabel.classList.add('editLabel');
+    categoryLabel.textContent = 'Category:';
+    editWindowDiv.appendChild(categoryLabel);
+    const categoryInput = document.createElement('input');
+    categoryInput.classList.add('editInputField');
+    categoryInput.type = 'text';
+    categoryInput.maxLength = 15;
+    editWindowDiv.appendChild(categoryInput);
+
+    // Create content input field
+    const contentLabel = document.createElement('label');
+    contentLabel.classList.add('editLabel');
+    contentLabel.textContent = 'Content:';
+    editWindowDiv.appendChild(contentLabel);
+    const contentInput = document.createElement('input');
+    contentInput.classList.add('editInputField');
+    contentInput.type = 'text';
+    contentInput.maxLength = 100;
+    editWindowDiv.appendChild(contentInput);
+
+    const editLabel = document.createElement('label');
+    editLabel.classList.add('editMainLabel');
+    editLabel.textContent = 'Here you can change some data:';
+    editWindowDiv.appendChild(editLabel);
+
+    const saveButton = document.createElement('button');
+    saveButton.classList.add('saveChanges-btn');
+    saveButton.textContent = 'Save changes';
+    saveButton.addEventListener('click', () => {
+      updateNoteData(nameInput, categoryInput, contentInput, tdName, tdCatg, tdDisc);
+      editWindowDiv.style.display = 'none';
+    });
+    editWindowDiv.appendChild(saveButton);
 
     document.forms[0].reset();
   }
