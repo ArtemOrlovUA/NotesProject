@@ -15,8 +15,20 @@
         <input maxlength="20" type="text" id="noteName" name="ntName" /><br />
         <h1>Enter your description <br />to it</h1>
         <input maxlength="60" type="text" id="noteDisc" name="ntDisc" /><br />
-        <h1>Enter it's category</h1>
-        <input maxlength="15" type="text" id="noteCat" name="ntCat" /><br />
+        <h1>Select your category</h1>
+        <div class="dropdown">
+          <div class="selected-value" onclick="toggleDropdown()">Select an option</div>
+          <div class="dropdown-list">
+            <div class="option" onclick="selectOption('Shopping')">Shopping</div>
+            <div class="option" onclick="selectOption('Gift')">Gift</div>
+            <div class="option" onclick="selectOption('Idea')">Idea</div>
+          </div>
+          <select id="selectDropdown" onchange="updateSelectedValue()">
+            <option value="Shopping">Shopping</option>
+            <option value="Gift">Gift</option>
+            <option value="Idea">Idea</option>
+          </select>
+        </div>
         <button id="noteSubmit">Create your note</button>
       </form>
     </div>

@@ -53,16 +53,21 @@ function getNoteTime(t) {
   return '' + D + '.' + M + '.' + Y;
 }
 
+selectDropdown.selectedIndex = -1;
+
 const addNote = (ev) => {
   ev.preventDefault();
+
+  const selectedValue = document.querySelector('.selected-value');
+  const selectDropdown = document.getElementById('selectDropdown');
 
   if (
     document.getElementById('noteName').value == null ||
     document.getElementById('noteName').value == '' ||
     document.getElementById('noteDisc').value == null ||
     document.getElementById('noteDisc').value == '' ||
-    document.getElementById('noteCat').value == null ||
-    document.getElementById('noteCat').value == ''
+    !isOptionSelected() ||
+    selectedValue.textContent == 'Select an option'
   ) {
     alert('Fill all fields');
   } else if (notes.length == 6) {
@@ -72,7 +77,7 @@ const addNote = (ev) => {
       name: document.getElementById('noteName').value,
       date: getNoteTime(new Date(Date.now())),
       discription: document.getElementById('noteDisc').value,
-      category: document.getElementById('noteCat').value,
+      category: getSelectedOptionText(),
       active: true,
     };
 
@@ -163,6 +168,7 @@ const addNote = (ev) => {
     const nameInput = document.createElement('input');
     nameInput.classList.add('editInputField');
     nameInput.type = 'text';
+    nameInput.value = tdName.innerText;
     nameInput.maxLength = 20;
     editWindowDiv.appendChild(nameInput);
 
@@ -174,6 +180,7 @@ const addNote = (ev) => {
     const categoryInput = document.createElement('input');
     categoryInput.classList.add('editInputField');
     categoryInput.type = 'text';
+    categoryInput.value = tdName.innerText;
     categoryInput.maxLength = 15;
     editWindowDiv.appendChild(categoryInput);
 
@@ -185,6 +192,7 @@ const addNote = (ev) => {
     const contentInput = document.createElement('input');
     contentInput.classList.add('editInputField');
     contentInput.type = 'text';
+    contentInput.value = tdName.innerText;
     contentInput.maxLength = 100;
     editWindowDiv.appendChild(contentInput);
 
@@ -202,8 +210,59 @@ const addNote = (ev) => {
     });
     editWindowDiv.appendChild(saveButton);
 
+    selectedValue.textContent = 'Select an option';
+
     document.forms[0].reset();
   }
 };
 
 document.getElementById('noteSubmit').addEventListener('click', addNote);
+
+function toggleDropdown() {
+  const dropdownList = document.querySelector('.dropdown-list');
+  const isDropdownOpen = dropdownList.style.display === 'block';
+
+  if (isDropdownOpen) {
+    dropdownList.style.display = 'none';
+  } else {
+    dropdownList.style.display = 'block';
+  }
+}
+
+function selectOption(value) {
+  const selectedValue = document.querySelector('.selected-value');
+  const selectDropdown = document.getElementById('selectDropdown');
+
+  selectedValue.textContent = getOptionText(value);
+  selectDropdown.value = value;
+
+  toggleDropdown();
+}
+
+function updateSelectedValue() {
+  const selectedValue = document.querySelector('.selected-value');
+  const selectDropdown = document.getElementById('selectDropdown');
+  selectedValue.textContent = getOptionText(selectDropdown.value);
+}
+
+function getOptionText(value) {
+  const selectDropdown = document.getElementById('selectDropdown');
+  const selectedOption = Array.from(selectDropdown.options).find(
+    (option) => option.value === value,
+  );
+  return selectedOption ? selectedOption.text : '';
+}
+
+function getSelectedOptionText() {
+  const selectDropdown = document.getElementById('selectDropdown');
+  const selectedOption = Array.from(selectDropdown.options).find(
+    (option) => option.value === selectDropdown.value,
+  );
+
+  return selectedOption ? selectedOption.text : null;
+}
+
+function isOptionSelected() {
+  const selectDropdown = document.getElementById('selectDropdown');
+  return selectDropdown.selectedIndex !== -1;
+}
