@@ -129,6 +129,10 @@ form input[type='text'] {
   font-family: 'Montserrat', sans-serif;
 }
 
+#tr-note {
+  border: 2px solid rgb(224, 224, 224);
+}
+
 #theadActive th {
   text-align: center;
   padding: 10px;

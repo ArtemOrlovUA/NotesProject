@@ -86,6 +86,7 @@ const addNote = (ev) => {
     tbodyActive = document.getElementById('tbodyActive');
 
     let tr = document.createElement('tr');
+    tr.setAttribute('id', 'tr-note');
 
     tbodyActive.appendChild(tr);
 
@@ -218,6 +219,29 @@ const addNote = (ev) => {
 
 document.getElementById('noteSubmit').addEventListener('click', addNote);
 
+function toggleOption(value) {
+  const selectDropdown = document.getElementById('selectDropdown');
+  const option = Array.from(selectDropdown.options).find((option) => option.value === value);
+
+  if (option) {
+    option.selected = !option.selected;
+  }
+
+  updateSelectedValue();
+}
+
+function updateSelectedValue() {
+  const selectDropdown = document.getElementById('selectDropdown');
+  const selectedOptions = Array.from(selectDropdown.selectedOptions);
+
+  const selectedCategories = selectedOptions.map((option) => option.value);
+  const selectedValue = document.querySelector('.selected-value');
+  selectedValue.textContent =
+    selectedCategories.length > 0 ? selectedCategories.join(', ') : 'Select an option';
+
+  filterOptions(selectedValue.textContent);
+}
+
 function toggleDropdown() {
   const dropdownList = document.querySelector('.dropdown-list');
   const isDropdownOpen = dropdownList.style.display === 'block';
@@ -229,40 +253,28 @@ function toggleDropdown() {
   }
 }
 
-function selectOption(value) {
-  const selectedValue = document.querySelector('.selected-value');
-  const selectDropdown = document.getElementById('selectDropdown');
-
-  selectedValue.textContent = getOptionText(value);
-  selectDropdown.value = value;
-
-  toggleDropdown();
-}
-
-function updateSelectedValue() {
-  const selectedValue = document.querySelector('.selected-value');
-  const selectDropdown = document.getElementById('selectDropdown');
-  selectedValue.textContent = getOptionText(selectDropdown.value);
-}
-
-function getOptionText(value) {
-  const selectDropdown = document.getElementById('selectDropdown');
-  const selectedOption = Array.from(selectDropdown.options).find(
-    (option) => option.value === value,
-  );
-  return selectedOption ? selectedOption.text : '';
-}
-
 function getSelectedOptionText() {
   const selectDropdown = document.getElementById('selectDropdown');
-  const selectedOption = Array.from(selectDropdown.options).find(
-    (option) => option.value === selectDropdown.value,
-  );
+  const selectedOptions = Array.from(selectDropdown.selectedOptions);
 
-  return selectedOption ? selectedOption.text : null;
+  return selectedOptions.map((option) => option.text).join(', ');
 }
 
 function isOptionSelected() {
   const selectDropdown = document.getElementById('selectDropdown');
-  return selectDropdown.selectedIndex !== -1;
+  return selectDropdown.selectedOptions.length !== 0;
+}
+
+function filterOptions(inputText) {
+  const dropdownList = document.querySelector('.dropdown-list');
+  const options = Array.from(dropdownList.querySelectorAll('.option'));
+
+  options.forEach((option) => {
+    const optionText = option.textContent;
+    if (optionText.toLowerCase().includes(inputText.toLowerCase())) {
+      option.style.display = 'block';
+    } else {
+      option.style.display = 'none';
+    }
+  });
 }
