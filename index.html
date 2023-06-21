@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="D:\JavaScript Learning\Pet\things\style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
   </head>
   <body>
@@ -21,7 +21,6 @@
             class="selected-value"
             onclick="toggleDropdown()"
             oninput="filterOptions(this.textContent)"
-            oninput="toggleDropdown()"
             contenteditable="true"
           >
             Select an option
@@ -64,12 +63,12 @@
         <table class="arcTable">
           <thead id="theadArchive">
             <tr>
-              <th class="active">Name</th>
-              <th class="active">Created</th>
-              <th class="active">Category</th>
-              <th class="active">Content</th>
-              <th class="active">Dates</th>
-              <th class="active">Actions</th>
+              <th class="archived">Name</th>
+              <th class="archived">Created</th>
+              <th class="archived">Category</th>
+              <th class="archived">Content</th>
+              <th class="archived">Dates</th>
+              <th class="archived">Actions</th>
             </tr>
           </thead>
           <tbody id="tbodyArchive"></tbody>

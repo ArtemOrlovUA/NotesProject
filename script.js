@@ -53,13 +53,10 @@ function getNoteTime(t) {
   return '' + D + '.' + M + '.' + Y;
 }
 
-selectDropdown.selectedIndex = -1;
-
 const addNote = (ev) => {
   ev.preventDefault();
 
   const selectedValue = document.querySelector('.selected-value');
-  const selectDropdown = document.getElementById('selectDropdown');
 
   if (
     document.getElementById('noteName').value == null ||
@@ -214,11 +211,16 @@ const addNote = (ev) => {
     selectedValue.textContent = 'Select an option';
 
     document.forms[0].reset();
+
+    const dropdownList = document.querySelector('.dropdown-list');
+
+    dropdownList.style.display = 'none';
   }
 };
 
 document.getElementById('noteSubmit').addEventListener('click', addNote);
 
+// Select some option
 function toggleOption(value) {
   const selectDropdown = document.getElementById('selectDropdown');
   const option = Array.from(selectDropdown.options).find((option) => option.value === value);
@@ -230,6 +232,7 @@ function toggleOption(value) {
   updateSelectedValue();
 }
 
+// Add multiple options
 function updateSelectedValue() {
   const selectDropdown = document.getElementById('selectDropdown');
   const selectedOptions = Array.from(selectDropdown.selectedOptions);
@@ -238,10 +241,9 @@ function updateSelectedValue() {
   const selectedValue = document.querySelector('.selected-value');
   selectedValue.textContent =
     selectedCategories.length > 0 ? selectedCategories.join(', ') : 'Select an option';
-
-  filterOptions(selectedValue.textContent);
 }
 
+// Open/Close options
 function toggleDropdown() {
   const dropdownList = document.querySelector('.dropdown-list');
   const isDropdownOpen = dropdownList.style.display === 'block';
@@ -251,8 +253,28 @@ function toggleDropdown() {
   } else {
     dropdownList.style.display = 'block';
   }
+
+  const selectedValue = document.querySelector('.selected-value');
+  if (selectedValue.textContent.trim() === 'Select an option') {
+    selectedValue.textContent = '';
+  }
+
+  if (selectedValue.textContent.trim() === '') {
+    selectDropdown.selectedIndex = -1;
+  }
+
+  const dropdown = document.querySelector('.dropdown');
+
+  document.addEventListener('click', function (event) {
+    const isClickInsideDropdown = dropdown.contains(event.target);
+
+    if (!isClickInsideDropdown) {
+      dropdownList.style.display = 'none';
+    }
+  });
 }
 
+// Get selected options to create note
 function getSelectedOptionText() {
   const selectDropdown = document.getElementById('selectDropdown');
   const selectedOptions = Array.from(selectDropdown.selectedOptions);

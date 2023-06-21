@@ -216,12 +216,6 @@ form input[type='text'] {
   background-color: #ffb429;
 }
 
-.archived {
-  border: 3px solid;
-  width: 200px;
-  height: 30px;
-}
-
 /* Icons */
 
 .archive-btn {
