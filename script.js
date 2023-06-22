@@ -220,6 +220,8 @@ const addNote = (ev) => {
 
 document.getElementById('noteSubmit').addEventListener('click', addNote);
 
+// Functions for alternative dropdown
+
 // Select some option
 function toggleOption(value) {
   const selectDropdown = document.getElementById('selectDropdown');
@@ -300,3 +302,49 @@ function filterOptions(inputText) {
     }
   });
 }
+
+// Realisation of alternative dropdown
+
+const dropdownContainer = document.createElement('div');
+dropdownContainer.className = 'dropdown';
+
+const selectedValue = document.createElement('div');
+selectedValue.className = 'selected-value';
+selectedValue.textContent = 'Select an option';
+selectedValue.setAttribute('contenteditable', 'true');
+selectedValue.addEventListener('click', toggleDropdown);
+selectedValue.addEventListener('input', function () {
+  // Clear the text field
+  selectedValue.textContent = '';
+
+  // Reset the selected options in the select element
+  const selectDropdown = document.getElementById('selectDropdown');
+  selectDropdown.value = -1;
+
+  filterOptions(this.textContent);
+});
+
+dropdownContainer.appendChild(selectedValue);
+
+const dropdownList = document.createElement('div');
+dropdownList.className = 'dropdown-list';
+
+const selectDropdown = document.getElementById('selectDropdown');
+
+for (let i = 0; i < selectDropdown.options.length; i++) {
+  const optionElement = document.createElement('div');
+  optionElement.className = 'option';
+  optionElement.textContent = selectDropdown.options[i].textContent;
+  optionElement.addEventListener('click', function () {
+    toggleOption(this.textContent);
+  });
+  dropdownList.appendChild(optionElement);
+}
+
+dropdownContainer.appendChild(dropdownList);
+
+const noteSubmitButton = document.getElementById('noteSubmit');
+
+const buttonContainer = noteSubmitButton.parentNode;
+
+buttonContainer.insertBefore(dropdownContainer, noteSubmitButton);
