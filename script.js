@@ -215,6 +215,10 @@ const addNote = (ev) => {
     const dropdownList = document.querySelector('.dropdown-list');
 
     dropdownList.style.display = 'none';
+
+    // Reset the selected options in the select element
+    const selectDropdown = document.getElementById('selectDropdown');
+    selectDropdown.value = -1;
   }
 };
 
@@ -313,15 +317,74 @@ selectedValue.className = 'selected-value';
 selectedValue.textContent = 'Select an option';
 selectedValue.setAttribute('contenteditable', 'true');
 selectedValue.addEventListener('click', toggleDropdown);
-selectedValue.addEventListener('input', function () {
-  // Clear the text field
-  selectedValue.textContent = '';
 
-  // Reset the selected options in the select element
-  const selectDropdown = document.getElementById('selectDropdown');
-  selectDropdown.value = -1;
+let previousText = selectedValue.textContent.trim(); // Store the previous text
+
+selectedValue.addEventListener('input', function () {
+  const dropdownList = document.querySelector('.dropdown-list');
+  dropdownList.style.display = 'block';
+
+  const currentText = this.textContent.trim();
+
+  if (currentText.length < previousText.length) {
+    // Check if there are more than one selected category
+    const categories = currentText.split(', ');
+    console.log(categories);
+    if (categories.length == 2) {
+      // Remove the last selected category along with the comma
+      const lastCategory = categories.pop();
+      selectedValue.textContent = categories.join(', ');
+
+      // Unselect corresponding option in selectDropdown
+      const selectDropdown = document.getElementById('selectDropdown');
+      console.log(lastCategory);
+      for (let i = 0; i < selectDropdown.options.length; i++) {
+        console.log(selectDropdown.options[i].value.slice(0, -1));
+        if (selectDropdown.options[i].value.slice(0, -1) === lastCategory) {
+          selectDropdown.options[i].selected = false;
+          break;
+        } else {
+          console.log('Not found the value to unselect');
+        }
+      }
+    } else if (categories.length > 2) {
+      // Remove the last selected category along with the comma
+      const lastCategory = categories.pop();
+      selectedValue.textContent = categories.join(', ');
+
+      // Unselect corresponding option in selectDropdown
+      const selectDropdown = document.getElementById('selectDropdown');
+      console.log(lastCategory);
+      for (let i = 0; i < selectDropdown.options.length; i++) {
+        console.log(selectDropdown.options[i].value.slice(0, -2));
+        if (selectDropdown.options[i].value.slice(0, -2) === lastCategory) {
+          selectDropdown.options[i].selected = false;
+          break;
+        } else {
+          console.log('Not found the value to unselect');
+        }
+      }
+    } else {
+      // Clear the text field
+      selectedValue.textContent = '';
+
+      // Reset the selected options in the select element
+      const selectDropdown = document.getElementById('selectDropdown');
+      selectDropdown.value = -1;
+    }
+  }
 
   filterOptions(this.textContent);
+
+  previousText = currentText; // Update the previous text
+
+  // Place cursor at the end of the string
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.selectNodeContents(selectedValue);
+  range.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(range);
 });
 
 dropdownContainer.appendChild(selectedValue);
