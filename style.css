@@ -1,3 +1,36 @@
+.select + select {
+  /*display: none;*/
+}
+.select {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 1px 1px 15px #000;
+  border: 1px dashed #CCC;
+}
+.select > * {
+  width: 100%;
+}
+.select > .display {
+  order: -2;
+  background-color: transparent;
+  outline: none;
+  padding: 15px 5px;
+  border: 1px solid #000;
+}
+.select > .option {
+  padding: 5px;
+  border-bottom: 1px dashed #e59500;
+}
+.select > .option.checked {
+  order: -1;
+}
+.select > .option.checked::after {
+  content: 'x';
+  float: right;
+}
+
 .container {
   position: relative;
   margin: 15px 32%;
