@@ -10,6 +10,39 @@ class Select {
     let display = document.createElement('input');
     display.classList.add('display');
 
+    display.addEventListener('input', () => {
+      this.filterOptions(display.value, frame);
+      if (display.value == '') {
+        this.options.forEach((option) => {
+          option.selected = false;
+        });
+        const optionUIs = document.querySelectorAll('.option');
+        optionUIs.forEach((optionUI) => {
+          optionUI.classList.remove('checked');
+        });
+      }
+    });
+
+    const selectInstance = this;
+
+    display.oninput = function (event) {
+      const action = event.inputType;
+      console.log(action);
+
+      if (action === 'deleteContentBackward') {
+        display.value = '';
+        selectInstance.options.forEach((option) => {
+          option.selected = false;
+        });
+
+        const optionUIs = document.querySelectorAll('.option');
+        optionUIs.forEach((optionUI) => {
+          optionUI.classList.remove('checked');
+          optionUI.style.display = 'block';
+        });
+      }
+    };
+
     frame.appendChild(display);
 
     if (this.ui.multiple) {
@@ -35,6 +68,10 @@ class Select {
         ui.classList.toggle('checked');
         option.selected = !option.selected;
         this.updateMultipleInputField(display);
+        const optionUIs = document.querySelectorAll('.option');
+        optionUIs.forEach((optionUI) => {
+          optionUI.style.display = 'block';
+        });
       });
       frame.appendChild(optionUI);
     }
@@ -55,18 +92,16 @@ class Select {
       optionUI.classList.add('option');
       optionUI.on('click', (e) => {
         var ui = e.target;
-
-        // Remove 'checked' class from all options except the clicked one
         for (const otherOptionUI of frame.querySelectorAll('.option')) {
           if (otherOptionUI !== ui) {
             otherOptionUI.classList.remove('checked');
           }
         }
-
         ui.classList.toggle('checked');
         option.selected = !option.selected;
         this.updateSingleInputField(display);
       });
+
       frame.appendChild(optionUI);
     }
   }
@@ -75,6 +110,24 @@ class Select {
     const selectedOptions = this.options.filter((option) => option.selected);
     const selectedOptionTexts = selectedOptions.map((option) => option.textContent);
     display.value = selectedOptionTexts.join('');
+  }
+
+  // Filtration logic
+
+  filterOptions(filterText, frame) {
+    const filteredOptions = this.options.filter((option) =>
+      option.textContent.toLowerCase().startsWith(filterText.toLowerCase()),
+    );
+
+    const optionUIs = frame.querySelectorAll('.option');
+    optionUIs.forEach((optionUI) => {
+      const optionText = optionUI.textContent.toLowerCase();
+      const isMatch = filteredOptions.some(
+        (option) => option.textContent.toLowerCase() === optionText,
+      );
+
+      optionUI.style.display = isMatch ? 'block' : 'none';
+    });
   }
 
   constructor(ui) {
