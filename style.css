@@ -1,13 +1,14 @@
 .select + select {
-  /*display: none;*/
+  display: none;
 }
+
 .select {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 10px;
   padding: 10px;
   box-shadow: 1px 1px 15px #000;
-  border: 1px dashed #CCC;
+  border: 1px dashed #ccc;
 }
 .select > * {
   width: 100%;
@@ -23,6 +24,12 @@
   padding: 5px;
   border-bottom: 1px dashed #e59500;
 }
+
+.select > .option:hover {
+  transition: 0.3s;
+  background-color: #f0b13d;
+}
+
 .select > .option.checked {
   order: -1;
 }
@@ -43,15 +50,10 @@
 
 /* Imput form */
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
 form input[type='text'] {
   width: 80%;
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
@@ -59,66 +61,23 @@ form input[type='text'] {
 
 .inputForm {
   position: absolute;
-  width: 25vw;
-  height: 80vh;
+  max-width: 25vw;
+  max-height: 95vh;
   background-color: rgb(255, 241, 146);
-  top: 45px;
-  left: 30px;
+  top: 2.5%;
+  left: 2%;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-.dropdown {
-  position: relative;
-  background-color: #f0bb58;
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  transition: all 0.2s ease-in-out;
-}
-
-.dropdown:hover {
-  background-color: #feb42c;
-}
-
-.selected-value {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.dropdown-list {
-  position: absolute;
-  display: none;
-  background-color: #f0bb58;
-  border: none;
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  width: fit-content; /* Add this line */
-  min-width: 100%; /* Add this line */
-}
-
-.option {
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.option:hover {
-  background-color: #f6a715;
-}
-
-#selectDropdown {
-  display: none;
-}
-
 #noteSubmit {
+  position: relative;
   padding: 10px;
-  margin: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  left: 50%;
+  transform: translate(-50%, 0);
   border: none;
   border-radius: 5px;
   background-color: #f3b23a;
@@ -128,7 +87,6 @@ form input[type='text'] {
   transition: all 0.2s ease-in-out;
   font-family: Montserrat;
   font-size: 1.2rem;
-  padding: 0.5rem 1rem;
 }
 
 #noteSubmit:hover {

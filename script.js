@@ -7,7 +7,7 @@ class Select {
     var frame = document.createElement('div');
     frame.classList.add('select');
 
-    let display = document.createElement('input');
+    var display = document.createElement('input');
     display.classList.add('display');
 
     display.addEventListener('input', () => {
@@ -133,6 +133,8 @@ class Select {
   constructor(ui) {
     this.ui = ui;
 
+    ui.classList.add('Selector');
+
     for (const option of ui.getElementsByTagName('option')) this.options.push(option);
 
     this.draw();
@@ -144,6 +146,59 @@ Element.prototype.on = function (event, listener) {
 };
 
 for (const select of document.getElementsByTagName('select')) new Select(select);
+
+// Realisation of note logic
+
+class Note {
+  constructor() {
+    console.log('hiii');
+    this.createNote();
+  }
+
+  createNote() {
+    var noteName = document.getElementById('noteName');
+    var noteDiscription = document.getElementById('noteDisc');
+
+    var tbodyActive = document.getElementById('tbodyActive');
+
+    let tr = document.createElement('tr');
+    tr.classList.add('tr-note');
+
+    tbodyActive.appendChild(tr);
+
+    let tdName = document.createElement('td');
+    tdName.style.textAlign = 'center';
+    tr.appendChild(tdName).innerText = noteName.value;
+
+    let tdDate = document.createElement('td');
+    tdDate.style.textAlign = 'center';
+    tr.appendChild(tdDate).innerText = 'Right now';
+
+    let tdDisc = document.createElement('td');
+    tdDisc.style.textAlign = 'center';
+    tr.appendChild(tdDisc).innerText = noteDiscription.value;
+
+    let tdCateg = document.createElement('td');
+    tdCateg.style.textAlign = 'center';
+    var display = document.getElementsByClassName('display');
+    tr.appendChild(tdCateg).innerText = display[0].value;
+
+    for (const otherOptionUI of document.querySelectorAll('.option')) {
+      otherOptionUI.classList.remove('checked');
+    }
+
+    document.forms[0].reset();
+  }
+}
+
+const createButton = document.getElementById('noteSubmit');
+
+createButton.addEventListener('click', function (event) {
+  event.preventDefault();
+  const note = new Note();
+});
+
+// OLD!!!!!!!!!!!!!
 
 if (0) {
   let notes = [];
