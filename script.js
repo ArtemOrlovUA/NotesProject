@@ -1,4 +1,5 @@
 'use strict';
+
 class Select {
   ui;
   options = [];
@@ -13,13 +14,13 @@ class Select {
     display.addEventListener('input', () => {
       this.filterOptions(display.value, frame);
       if (display.value == '') {
-        this.options.forEach((option) => {
+        for (const option of this.options) {
           option.selected = false;
-        });
+        }
         const optionUIs = document.querySelectorAll('.option');
-        optionUIs.forEach((optionUI) => {
+        for (const optionUI of optionUIs) {
           optionUI.classList.remove('checked');
-        });
+        }
       }
     });
 
@@ -31,13 +32,14 @@ class Select {
 
       if (action === 'deleteContentBackward') {
         display.value = '';
-        selectInstance.options.forEach((option) => {
+        for (const option of selectInstance.options) {
           option.selected = false;
-        });
+        }
 
         const optionUIs = document.querySelectorAll('.option');
         optionUIs.forEach((optionUI) => {
           optionUI.classList.remove('checked');
+          optionUI.classList.add('option-visibility');
           optionUI.style.display = 'block';
         });
       }
@@ -109,7 +111,7 @@ class Select {
   updateSingleInputField(display) {
     const selectedOptions = this.options.filter((option) => option.selected);
     const selectedOptionTexts = selectedOptions.map((option) => option.textContent);
-    display.value = selectedOptionTexts.join('');
+    display.value = selectedOptionTexts;
   }
 
   // Filtration logic
@@ -120,14 +122,14 @@ class Select {
     );
 
     const optionUIs = frame.querySelectorAll('.option');
-    optionUIs.forEach((optionUI) => {
+    for (const optionUI of optionUIs) {
       const optionText = optionUI.textContent.toLowerCase();
       const isMatch = filteredOptions.some(
         (option) => option.textContent.toLowerCase() === optionText,
       );
 
       optionUI.style.display = isMatch ? 'block' : 'none';
-    });
+    }
   }
 
   constructor(ui) {
@@ -135,7 +137,9 @@ class Select {
 
     ui.classList.add('Selector');
 
-    for (const option of ui.getElementsByTagName('option')) this.options.push(option);
+    for (const option of ui.getElementsByTagName('option')) {
+      this.options.push(option);
+    }
 
     this.draw();
   }
@@ -150,11 +154,6 @@ for (const select of document.getElementsByTagName('select')) new Select(select)
 // Realisation of note logic
 
 class Note {
-  constructor() {
-    console.log('hiii');
-    this.createNote();
-  }
-
   createNote() {
     var noteName = document.getElementById('noteName');
     var noteDiscription = document.getElementById('noteDisc');
@@ -174,20 +173,53 @@ class Note {
     tdDate.style.textAlign = 'center';
     tr.appendChild(tdDate).innerText = 'Right now';
 
+    let tdCateg = document.createElement('td');
+    tdCateg.style.textAlign = 'center';
+    var selectors = document.getElementsByTagName('select');
+    var selectedOptions = [];
+    for (const option of selectors[0]) {
+      if (option.selected) {
+        selectedOptions.push(option);
+      }
+    }
+    var selectedOptionTexts = selectedOptions.map((option) => option.textContent);
+    var optionsToAdd = selectedOptionTexts.join(', ');
+    tr.appendChild(tdCateg).innerText = optionsToAdd;
+
     let tdDisc = document.createElement('td');
     tdDisc.style.textAlign = 'center';
     tr.appendChild(tdDisc).innerText = noteDiscription.value;
-
-    let tdCateg = document.createElement('td');
-    tdCateg.style.textAlign = 'center';
-    var display = document.getElementsByClassName('display');
-    tr.appendChild(tdCateg).innerText = display[0].value;
 
     for (const otherOptionUI of document.querySelectorAll('.option')) {
       otherOptionUI.classList.remove('checked');
     }
 
     document.forms[0].reset();
+
+    var e = new Event('input');
+    var display = document.getElementsByClassName('display');
+    display[0].dispatchEvent(e);
+  }
+
+  constructor() {
+    console.log('hiii');
+    var selectors = document.getElementsByTagName('select');
+    var noteName = document.getElementById('noteName').value;
+    var noteDiscription = document.getElementById('noteDisc').value;
+    var atLeastOneOptionSelected = false;
+
+    for (const option of selectors[0]) {
+      if (option.selected) {
+        atLeastOneOptionSelected = true;
+        break;
+      }
+    }
+
+    if (noteName.trim() !== '' && noteDiscription.trim() !== '' && atLeastOneOptionSelected) {
+      this.createNote();
+    } else {
+      alert('Please, fill all fields.');
+    }
   }
 }
 
