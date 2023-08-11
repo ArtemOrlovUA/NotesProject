@@ -26,7 +26,7 @@ class Select {
 
     const selectInstance = this;
 
-    display.oninput = function (event) {
+    display.addEventListener('input', function (event) {
       const action = event.inputType;
       console.log(action);
 
@@ -37,13 +37,13 @@ class Select {
         }
 
         const optionUIs = document.querySelectorAll('.option');
-        optionUIs.forEach((optionUI) => {
+        for (const optionUI of optionUIs) {
           optionUI.classList.remove('checked');
           optionUI.classList.add('option-visibility');
           optionUI.style.display = 'block';
-        });
+        }
       }
-    };
+    });
 
     frame.appendChild(display);
 
