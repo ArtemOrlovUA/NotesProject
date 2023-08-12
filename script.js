@@ -39,8 +39,8 @@ class Select {
         const optionUIs = document.querySelectorAll('.option');
         for (const optionUI of optionUIs) {
           optionUI.classList.remove('checked');
-          optionUI.classList.add('option-visibility');
-          optionUI.style.display = 'block';
+          var e = new Event('input');
+          display.dispatchEvent(e);
         }
       }
     });
@@ -82,7 +82,7 @@ class Select {
   updateMultipleInputField(display) {
     const selectedOptions = this.options.filter((option) => option.selected);
     const selectedOptionTexts = selectedOptions.map((option) => option.textContent);
-    display.value = selectedOptionTexts.join(', ');
+    display.value = selectedOptionTexts.join(', ') + ', ';
   }
 
   // Single selector part
@@ -117,8 +117,19 @@ class Select {
   // Filtration logic
 
   filterOptions(filterText, frame) {
+    var counterOfSelecOptions = 0;
+    var lengthOFSelecOptions = 0;
+    for (const option of this.options) {
+      if (option.selected) {
+        counterOfSelecOptions++;
+        lengthOFSelecOptions += option.textContent.length + 2;
+      }
+    }
+
+    var updatedFilterText = filterText.substring(lengthOFSelecOptions);
+
     const filteredOptions = this.options.filter((option) =>
-      option.textContent.toLowerCase().startsWith(filterText.toLowerCase()),
+      option.textContent.toLowerCase().startsWith(updatedFilterText.toLowerCase()),
     );
 
     const optionUIs = frame.querySelectorAll('.option');
@@ -154,6 +165,20 @@ for (const select of document.getElementsByTagName('select')) new Select(select)
 // Realisation of note logic
 
 class Note {
+  addLeadingZero(d) {
+    return d < 10 ? '0' + d : d;
+  }
+
+  getNoteTime(t) {
+    let Y = t.getFullYear();
+    let M = this.addLeadingZero(t.getMonth() + 1);
+    let D = this.addLeadingZero(t.getDate());
+    let h = this.addLeadingZero(t.getHours());
+    let m = this.addLeadingZero(t.getMinutes());
+
+    return `${D}.${M}.${Y} \n at ${h}:${m}`;
+  }
+
   createNote() {
     var noteName = document.getElementById('noteName');
     var noteDiscription = document.getElementById('noteDisc');
@@ -171,7 +196,8 @@ class Note {
 
     let tdDate = document.createElement('td');
     tdDate.style.textAlign = 'center';
-    tr.appendChild(tdDate).innerText = 'Right now';
+    var time = this.getNoteTime(new Date(Date.now()));
+    tr.appendChild(tdDate).innerText = time;
 
     let tdCateg = document.createElement('td');
     tdCateg.style.textAlign = 'center';
@@ -190,6 +216,14 @@ class Note {
     tdDisc.style.textAlign = 'center';
     tr.appendChild(tdDisc).innerText = noteDiscription.value;
 
+    let tdDates = document.createElement('td');
+    tdDates.style.textAlign = 'center';
+    tr.appendChild(tdDates).innerText = 'soon';
+
+    let tdActions = document.createElement('td');
+    tdActions.style.textAlign = 'center';
+    tr.appendChild(tdActions).innerText = 'soon';
+
     for (const otherOptionUI of document.querySelectorAll('.option')) {
       otherOptionUI.classList.remove('checked');
     }
@@ -202,7 +236,6 @@ class Note {
   }
 
   constructor() {
-    console.log('hiii');
     var selectors = document.getElementsByTagName('select');
     var noteName = document.getElementById('noteName').value;
     var noteDiscription = document.getElementById('noteDisc').value;
