@@ -1,5 +1,272 @@
 'use strict';
 
+class Calendar {
+  constructor() {
+    this.currentDisplayedDate = new Date();
+    this.inputDate = document.createElement('input');
+    this.selectDateButton = document.createElement('button');
+    this.table = document.createElement('table');
+    this.draw();
+  }
+
+  addLeadingZero(d) {
+    return d < 10 ? '0' + d : d;
+  }
+
+  getNoteTime(t) {
+    let Y = t.getFullYear();
+    let M = this.addLeadingZero(t.getMonth() + 1);
+    let D = this.addLeadingZero(t.getDate());
+
+    return `${D}.${M}.${Y}`;
+  }
+
+  draw() {
+    let windowDiv = document.createElement('div');
+    windowDiv.classList.add('windowDiv');
+
+    let calendarDiv = document.createElement('div');
+    calendarDiv.classList.add('calendarDiv');
+
+    let topperCalenDiv = document.createElement('div');
+    topperCalenDiv.classList.add('topperCalenDiv');
+    // Create the left div in topper
+    let leftDivIntopper = document.createElement('div');
+    leftDivIntopper.textContent = '<';
+    leftDivIntopper.classList.add('leftDivIntopper');
+    leftDivIntopper.addEventListener('click', () => {
+      this.goToPreviousMonth();
+    });
+    topperCalenDiv.appendChild(leftDivIntopper);
+
+    // Create the main center div in topper
+    let mainDivInTopper = document.createElement('div');
+    mainDivInTopper.classList.add('mainDivInTopper');
+    topperCalenDiv.appendChild(mainDivInTopper);
+
+    // Create the right div in topper
+    let rightDivInTopper = document.createElement('div');
+    rightDivInTopper.textContent = '>';
+    rightDivInTopper.classList.add('rightDivInTopper');
+    rightDivInTopper.addEventListener('click', () => {
+      this.goToNextMonth();
+    });
+    topperCalenDiv.appendChild(rightDivInTopper);
+
+    calendarDiv.appendChild(topperCalenDiv);
+
+    let mainCalenDiv = document.createElement('div');
+    mainCalenDiv.classList.add('mainCalenDiv');
+
+    calendarDiv.appendChild(mainCalenDiv);
+
+    this.inputDate.type = 'date';
+    this.inputDate.classList.add('inputDate');
+    this.inputDate.addEventListener('change', (event) => {
+      const selectedDate = new Date(event.target.value);
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth();
+      mainCalenDiv.innerHTML = '';
+      const calendarTable = this.generateCalendarTable(year, month);
+      mainCalenDiv.appendChild(calendarTable);
+    });
+
+    calendarDiv.appendChild(this.inputDate);
+
+    // Dispatch 'change' event with the current date
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
+    const day = currentDate.getDate();
+    const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${day
+      .toString()
+      .padStart(2, '0')}`;
+    this.inputDate.value = formattedDate;
+    const changeEvent = new Event('change', { bubbles: true });
+    this.inputDate.dispatchEvent(changeEvent);
+
+    this.selectDateButton = document.createElement('button');
+    this.selectDateButton.innerText = 'Select';
+    this.selectDateButton.classList.add('selectDateButton');
+
+    windowDiv.appendChild(calendarDiv);
+    windowDiv.appendChild(this.selectDateButton);
+
+    const container = document.getElementsByClassName('container');
+    container[0].appendChild(windowDiv);
+  }
+
+  setSelecDateToNote(tdElement) {
+    this.selectDateButton.addEventListener('click', () => {
+      const selectedTd = this.table.querySelector('.selected');
+
+      if (selectedTd) {
+        const dateParts = this.inputDate.value.split('-');
+
+        tdElement.innerHTML = '';
+
+        const formattedDate = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`;
+
+        tdElement.textContent = formattedDate;
+      } else {
+        alert('Please, select a date.');
+      }
+    });
+  }
+
+  generateCalendarTable(year, month) {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    this.table = document.createElement('table');
+    this.table.classList.add('calendarTable');
+
+    const dayHeaderRow = document.createElement('tr');
+    daysOfWeek.forEach((day) => {
+      const dayHeader = document.createElement('th');
+      dayHeader.textContent = day;
+      dayHeader.classList.add('day-of-week');
+      if (day === 'Sat' || day === 'Sun') {
+        dayHeader.classList.add('weekend-day');
+      }
+      dayHeaderRow.appendChild(dayHeader);
+    });
+    this.table.appendChild(dayHeaderRow);
+
+    const startDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    let dayCounter = 1;
+    for (let row = 0; row < 6; row++) {
+      const calendarRow = document.createElement('tr');
+      for (let col = 0; col < 7; col++) {
+        const calendarCell = document.createElement('td');
+        if ((row === 0 && col < startDay) || dayCounter > daysInMonth) {
+          calendarCell.textContent = '';
+        } else {
+          calendarCell.textContent = dayCounter++;
+          calendarCell.classList.add('calendar-Cell');
+          calendarCell.addEventListener('click', () => {
+            const table = calendarCell.closest('table');
+            const calendarCells = table.querySelectorAll('.calendar-Cell');
+
+            for (let otherCell of calendarCells) {
+              if (otherCell === event.target) continue;
+
+              otherCell.classList.remove('selected');
+            }
+
+            const selectedDay = calendarCell.textContent; // Get the selected day
+            this.inputDate.value = `${year}-${(month + 1)
+              .toString()
+              .padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
+
+            calendarCell.classList.toggle('selected');
+          });
+        }
+        calendarRow.appendChild(calendarCell);
+      }
+      this.table.appendChild(calendarRow);
+    }
+
+    return this.table;
+  }
+
+  goToNextMonth() {
+    this.currentDisplayedDate.setMonth(this.currentDisplayedDate.getMonth() + 1);
+
+    if (this.currentDisplayedDate.getMonth() === 0) {
+      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear());
+    }
+
+    const mainCalenDiv = document.querySelector('.mainCalenDiv');
+    while (mainCalenDiv.firstChild) {
+      mainCalenDiv.removeChild(mainCalenDiv.firstChild);
+    }
+
+    const year = this.currentDisplayedDate.getFullYear();
+    const month = this.currentDisplayedDate.getMonth();
+    mainCalenDiv.innerHTML = '';
+    const calendarTable = this.generateCalendarTable(year, month);
+    mainCalenDiv.appendChild(calendarTable);
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const mainDivInTopper = document.querySelector('.mainDivInTopper');
+    mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
+
+    const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
+    let inputDate = document.getElementsByClassName('inputDate');
+    inputDate[0].value = formattedDate;
+  }
+
+  goToPreviousMonth() {
+    this.currentDisplayedDate.setMonth(this.currentDisplayedDate.getMonth() - 1);
+
+    if (this.currentDisplayedDate.getMonth() === 11) {
+      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear());
+    }
+
+    const mainCalenDiv = document.querySelector('.mainCalenDiv');
+    while (mainCalenDiv.firstChild) {
+      mainCalenDiv.removeChild(mainCalenDiv.firstChild);
+    }
+
+    const year = this.currentDisplayedDate.getFullYear();
+    const month = this.currentDisplayedDate.getMonth();
+    const calendarTable = this.generateCalendarTable(year, month);
+    mainCalenDiv.appendChild(calendarTable);
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const mainDivInTopper = document.querySelector('.mainDivInTopper');
+    mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
+
+    const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
+    let inputDate = document.getElementsByClassName('inputDate');
+    inputDate[0].value = formattedDate;
+  }
+}
+
 class Select {
   ui;
   options = [];
@@ -28,7 +295,6 @@ class Select {
 
     display.addEventListener('input', function (event) {
       const action = event.inputType;
-      console.log(action);
 
       if (action === 'deleteContentBackward') {
         display.value = '';
@@ -48,10 +314,8 @@ class Select {
     frame.appendChild(display);
 
     if (this.ui.multiple) {
-      console.log('hello');
       this.doIfMultipleSelector(frame, display);
     } else {
-      console.log('bye');
       this.doIfSingleSelector(frame, display);
     }
 
@@ -191,16 +455,13 @@ class Note {
     tbodyActive.appendChild(tr);
 
     let tdName = document.createElement('td');
-    tdName.style.textAlign = 'center';
     tr.appendChild(tdName).innerText = noteName.value;
 
     let tdDate = document.createElement('td');
-    tdDate.style.textAlign = 'center';
     var time = this.getNoteTime(new Date(Date.now()));
     tr.appendChild(tdDate).innerText = time;
 
     let tdCateg = document.createElement('td');
-    tdCateg.style.textAlign = 'center';
     var selectors = document.getElementsByTagName('select');
     var selectedOptions = [];
     for (const option of selectors[0]) {
@@ -213,15 +474,21 @@ class Note {
     tr.appendChild(tdCateg).innerText = optionsToAdd;
 
     let tdDisc = document.createElement('td');
-    tdDisc.style.textAlign = 'center';
     tr.appendChild(tdDisc).innerText = noteDiscription.value;
 
     let tdDates = document.createElement('td');
-    tdDates.style.textAlign = 'center';
-    tr.appendChild(tdDates).innerText = 'soon';
+    let addDateButton = document.createElement('button');
+    addDateButton.innerText = 'Click to add date';
+    addDateButton.setAttribute('id', 'addDateButton');
+    tdDates.appendChild(addDateButton);
+    tr.appendChild(tdDates);
+
+    addDateButton.addEventListener('click', function () {
+      const calen = new Calendar();
+      calen.setSelecDateToNote(tdDates);
+    });
 
     let tdActions = document.createElement('td');
-    tdActions.style.textAlign = 'center';
     tr.appendChild(tdActions).innerText = 'soon';
 
     for (const otherOptionUI of document.querySelectorAll('.option')) {

@@ -1,3 +1,186 @@
+/* Date selection part */
+
+.windowDiv {
+  position: absolute;
+  background-color: #e59500;
+  top: 25%;
+  left: 69%;
+  width: 20vw;
+  height: 35vh;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+
+.calendarDiv {
+  position: relative;
+  background-color: #f0b13d;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 17vw;
+  height: 28vh;
+  border-radius: 7px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+.calendarTable > tr,
+.calendarTable > tr > td {
+  font-family: Montserrat;
+  color: white;
+}
+
+.weekend-day {
+  color: red;
+}
+
+.calendarTable > tr > td:hover {
+  color: yellow;
+  transition: 0.2s;
+  background-color: rgb(35, 35, 180);
+  border: none;
+  border-radius: 5px;
+}
+
+.calendar-Cell.selected {
+  color: yellow;
+  background-color: rgb(75, 11, 153);
+  border: none;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+}
+
+th.day-of-week {
+  width: 14.28%;
+  position: sticky;
+  top: 0;
+  height: 14.28%;
+}
+
+.topperCalenDiv {
+  position: relative;
+  top: 0;
+  width: 17vw;
+  height: 5vh;
+  border-radius: 7px 7px 0 0;
+  background-color: #695228;
+}
+
+.mainCalenDiv {
+  position: relative;
+  display: grid;
+  width: 17vw;
+  height: 23vh;
+  border-radius: 0 0 7px 7px;
+  background-color: #483209;
+}
+
+.leftDivIntopper,
+.mainDivInTopper,
+.rightDivInTopper {
+  height: 5vh; /* Adjust as needed */
+  background-color: #695228;
+  display: inline-block;
+  justify-content: center;
+  vertical-align: top;
+}
+
+.leftDivIntopper:hover,
+.mainDivInTopper:hover,
+.rightDivInTopper:hover {
+  background-color: #716041;
+}
+
+.mainDivInTopper {
+  width: 13vw;
+  text-align: center;
+  position: relative;
+  font-family: Montserrat;
+  color: white;
+}
+
+.mainDivInTopper::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.leftDivIntopper {
+  border-radius: 7px 0 0 7px;
+  width: 2vw;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #e59500;
+}
+
+.leftDivIntopper::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.rightDivInTopper {
+  border-radius: 0 7px 7px 0;
+  width: 2vw;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #e59500;
+}
+
+.rightDivInTopper::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.inputDate {
+  display: none;
+}
+
+.selectDateButton {
+  position: relative;
+  margin-top: 3.5%;
+  margin-left: 65%;
+
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f3b23a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: Montserrat;
+  font-size: 0.8rem;
+}
+
+.selectDateButton:hover {
+  background-color: #fdcb6e;
+}
+
+#addDateButton {
+  position: relative;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f3b23a;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: Montserrat;
+  font-size: 0.8rem;
+}
+
+#addDateButton:hover {
+  background-color: #e59500;
+}
+
 /* Custom selector part */
 
 .select + select {
@@ -55,6 +238,7 @@
   margin: 15px 32%;
   width: 64vw;
   height: 90vh;
+  max-height: fit-content;
   background-color: antiquewhite;
   border-radius: 15px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
@@ -117,7 +301,7 @@ form input[type='text'] {
   top: 2%;
   left: 5%;
   font-family: Montserrat, sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .notes {
@@ -126,7 +310,7 @@ form input[type='text'] {
   overflow-x: auto;
   top: -7%;
   margin: 20px;
-  width: 900px;
+  max-width: 60vw;
   height: 47vh;
   background-color: rgb(252, 203, 138);
   border: 2px solid #ccc;
@@ -152,10 +336,13 @@ form input[type='text'] {
   margin-top: 10px;
 }
 
+td {
+  text-align: center;
+}
+
 .notes th,
 .notes td {
   padding: 10px;
-  text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
@@ -175,7 +362,7 @@ form input[type='text'] {
   top: 56%;
   left: 5%;
   font-family: Montserrat, sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .archive {
@@ -184,8 +371,8 @@ form input[type='text'] {
   overflow-x: auto;
   top: -1.5%;
   margin: 20px;
-  width: 900px;
-  height: 25vh;
+  max-width: 60vw;
+  height: 20vh;
   background-color: rgb(252, 203, 138);
   border: 2px solid #ccc;
   border-radius: 5px;
