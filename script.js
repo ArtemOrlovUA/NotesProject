@@ -149,6 +149,7 @@ class Calendar {
         const yearDiv = document.createElement('div');
         yearDiv.classList.add('year-Div');
         yearDiv.textContent = i;
+
         yearDiv.addEventListener('click', () => {
           const monthTables = calendarDiv.querySelectorAll('.months-table');
 
@@ -217,6 +218,15 @@ class Calendar {
         });
         calendarDiv.appendChild(yearDiv);
       }
+
+      const selectedYear = this.currentDisplayedDate.getFullYear() - 3;
+      const yearDivsContainer = calendarDiv;
+      const yearDivHeight = yearDivsContainer.querySelector('.year-Div').clientHeight;
+      const selectedYearIndex = 2099 - selectedYear;
+      const scrollPosition = selectedYearIndex * yearDivHeight;
+
+      yearDivsContainer.scrollTop = scrollPosition;
+
       calendarDiv.classList.add('year-Divs-visible');
       mainCalendarDiv.classList.remove('mainCalenDiv');
       mainCalendarDiv.classList.add('mainCalendar-Div-hidden');
@@ -283,7 +293,7 @@ class Calendar {
               otherCell.classList.remove('selected');
             }
 
-            const selectedDay = calendarCell.textContent; // Get the selected day
+            const selectedDay = calendarCell.textContent;
             this.inputDate.value = `${year}-${(month + 1)
               .toString()
               .padStart(2, '0')}-${selectedDay.padStart(2, '0')}`;
