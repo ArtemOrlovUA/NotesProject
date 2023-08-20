@@ -6,6 +6,7 @@ class Calendar {
     this.inputDate = document.createElement('input');
     this.selectDateButton = document.createElement('button');
     this.table = document.createElement('table');
+
     this.draw();
   }
 
@@ -35,13 +36,16 @@ class Calendar {
     leftDivIntopper.textContent = '<';
     leftDivIntopper.classList.add('leftDivIntopper');
     leftDivIntopper.addEventListener('click', () => {
-      this.goToPreviousMonth();
+      this.goToPreviousMonth(mainDivInTopper);
     });
     topperCalenDiv.appendChild(leftDivIntopper);
 
     // Create the main center div in topper
     let mainDivInTopper = document.createElement('div');
     mainDivInTopper.classList.add('mainDivInTopper');
+    mainDivInTopper.addEventListener('click', () => {
+      this.openDateSelection(calendarDiv, mainCalenDiv, mainDivInTopper);
+    });
     topperCalenDiv.appendChild(mainDivInTopper);
 
     // Create the right div in topper
@@ -49,7 +53,7 @@ class Calendar {
     rightDivInTopper.textContent = '>';
     rightDivInTopper.classList.add('rightDivInTopper');
     rightDivInTopper.addEventListener('click', () => {
-      this.goToNextMonth();
+      this.goToNextMonth(mainDivInTopper);
     });
     topperCalenDiv.appendChild(rightDivInTopper);
 
@@ -111,6 +115,114 @@ class Calendar {
     container[0].appendChild(windowDiv);
   }
 
+  openDateSelection(calendarDiv, mainCalendarDiv, mainDivInTopper) {
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const yearDivs = calendarDiv.querySelectorAll('.year-Div');
+    const monthTables = calendarDiv.querySelectorAll('.months-table');
+
+    if (calendarDiv.classList.contains('year-Divs-visible')) {
+      yearDivs.forEach((yearDiv) => {
+        yearDiv.remove();
+      });
+      monthTables.forEach((monthTable) => {
+        monthTable.remove();
+      });
+      calendarDiv.classList.remove('year-Divs-visible');
+      mainCalendarDiv.classList.add('mainCalenDiv');
+    } else {
+      // Create and show yearDivs
+      for (let i = 2099; i >= 1970; i--) {
+        const yearDiv = document.createElement('div');
+        yearDiv.classList.add('year-Div');
+        yearDiv.textContent = i;
+        yearDiv.addEventListener('click', () => {
+          const monthTables = calendarDiv.querySelectorAll('.months-table');
+
+          const monthTableBelow = yearDiv.nextElementSibling;
+
+          if (monthTableBelow && monthTableBelow.classList.contains('months-table')) {
+            monthTableBelow.remove();
+          } else {
+            monthTables.forEach((monthTable) => {
+              monthTable.remove();
+            });
+
+            const table = document.createElement('table');
+            table.classList.add('months-table');
+            let monthCounter = 0;
+
+            for (let row = 0; row < 4; row++) {
+              const tableRow = document.createElement('tr');
+              for (let col = 0; col < 3; col++) {
+                const tableCell = document.createElement('td');
+                tableCell.classList.add('cell-with-month');
+                const currentMonthCounter = monthCounter;
+                tableCell.textContent = monthNames[currentMonthCounter];
+                tableCell.addEventListener('click', () => {
+                  const selectedYear = yearDiv.textContent;
+                  const selectedMonth = currentMonthCounter + 1;
+                  const selectedDay = this.currentDisplayedDate.getDate();
+                  const selectedMonthName = monthNames[selectedMonth - 1];
+                  this.inputDate.value = `${selectedYear}-${this.addLeadingZero(
+                    selectedMonth,
+                  )}-${this.addLeadingZero(selectedDay)}`;
+
+                  mainDivInTopper.textContent = `${selectedMonthName} ${selectedYear}`;
+
+                  this.currentDisplayedDate.setFullYear(Number(selectedYear), selectedMonth - 1);
+                  const calendarTable = this.generateCalendarTable(
+                    Number(selectedYear),
+                    selectedMonth - 1,
+                  );
+                  mainCalendarDiv.innerHTML = '';
+                  mainCalendarDiv.appendChild(calendarTable);
+                });
+                tableRow.appendChild(tableCell);
+                monthCounter++;
+              }
+              table.appendChild(tableRow);
+            }
+            const followingYearDiv = yearDiv.nextElementSibling;
+            calendarDiv.insertBefore(table, followingYearDiv);
+
+            const selectedYear = yearDiv.textContent;
+            const selectedMonth = this.currentDisplayedDate.getMonth();
+            const selectedDay = this.currentDisplayedDate.getDate();
+            const selectedMonthName = monthNames[selectedMonth];
+            this.inputDate.value = `${selectedYear}-${this.addLeadingZero(
+              selectedMonth + 1,
+            )}-${this.addLeadingZero(selectedDay)}`;
+
+            mainDivInTopper.textContent = `${selectedMonthName} ${selectedYear}`;
+
+            this.currentDisplayedDate.setFullYear(Number(selectedYear));
+            const calendarTable = this.generateCalendarTable(Number(selectedYear), selectedMonth);
+            mainCalendarDiv.innerHTML = '';
+            mainCalendarDiv.appendChild(calendarTable);
+          }
+        });
+        calendarDiv.appendChild(yearDiv);
+      }
+      calendarDiv.classList.add('year-Divs-visible');
+      mainCalendarDiv.classList.remove('mainCalenDiv');
+      mainCalendarDiv.classList.add('mainCalendar-Div-hidden');
+    }
+  }
+
   setSelecDateToNote(tdElement) {
     this.selectDateButton.addEventListener('click', () => {
       const selectedTd = this.table.querySelector('.selected');
@@ -124,6 +236,7 @@ class Calendar {
 
         tdElement.textContent = formattedDate;
       } else {
+        console.log('No selected cell found.');
         alert('Please, select a date.');
       }
     });
@@ -186,21 +299,24 @@ class Calendar {
     return this.table;
   }
 
-  goToNextMonth() {
+  goToNextMonth(mainDivInTopper) {
+    if (mainDivInTopper.textContent === 'December 2099') {
+      return;
+    }
+
     this.currentDisplayedDate.setMonth(this.currentDisplayedDate.getMonth() + 1);
 
     if (this.currentDisplayedDate.getMonth() === 0) {
       this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear());
     }
 
-    const mainCalenDiv = document.querySelector('.mainCalenDiv');
+    const mainCalenDiv = mainDivInTopper.parentNode.nextElementSibling;
     while (mainCalenDiv.firstChild) {
       mainCalenDiv.removeChild(mainCalenDiv.firstChild);
     }
 
     const year = this.currentDisplayedDate.getFullYear();
     const month = this.currentDisplayedDate.getMonth();
-    mainCalenDiv.innerHTML = '';
     const calendarTable = this.generateCalendarTable(year, month);
     mainCalenDiv.appendChild(calendarTable);
 
@@ -219,22 +335,25 @@ class Calendar {
       'December',
     ];
 
-    const mainDivInTopper = document.querySelector('.mainDivInTopper');
     mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
-    let inputDate = document.getElementsByClassName('inputDate');
-    inputDate[0].value = formattedDate;
+    let inputDate = mainCalenDiv.previousElementSibling;
+    inputDate.value = formattedDate;
   }
 
-  goToPreviousMonth() {
+  goToPreviousMonth(mainDivInTopper) {
+    if (mainDivInTopper.textContent === 'January 1970') {
+      return;
+    }
+
     this.currentDisplayedDate.setMonth(this.currentDisplayedDate.getMonth() - 1);
 
     if (this.currentDisplayedDate.getMonth() === 11) {
-      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear());
+      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear() - 1);
     }
 
-    const mainCalenDiv = document.querySelector('.mainCalenDiv');
+    const mainCalenDiv = mainDivInTopper.parentNode.nextElementSibling;
     while (mainCalenDiv.firstChild) {
       mainCalenDiv.removeChild(mainCalenDiv.firstChild);
     }
@@ -258,12 +377,12 @@ class Calendar {
       'November',
       'December',
     ];
-    const mainDivInTopper = document.querySelector('.mainDivInTopper');
+
     mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
-    let inputDate = document.getElementsByClassName('inputDate');
-    inputDate[0].value = formattedDate;
+    let inputDate = mainCalenDiv.previousElementSibling;
+    inputDate.value = formattedDate;
   }
 }
 
@@ -476,6 +595,7 @@ class Note {
     let tdDisc = document.createElement('td');
     tr.appendChild(tdDisc).innerText = noteDiscription.value;
 
+    // Part of code of note class
     let tdDates = document.createElement('td');
     let addDateButton = document.createElement('button');
     addDateButton.innerText = 'Click to add date';
