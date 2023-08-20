@@ -40,7 +40,7 @@
   color: red;
 }
 
-.calendarTable > tr > td:hover {
+.calendarTable > tr > .calendar-Cell:hover {
   color: yellow;
   transition: 0.2s;
   background-color: rgb(35, 35, 180);

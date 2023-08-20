@@ -338,8 +338,7 @@ class Calendar {
     mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
-    let inputDate = mainCalenDiv.previousElementSibling;
-    inputDate.value = formattedDate;
+    this.inputDate.value = formattedDate;
   }
 
   goToPreviousMonth(mainDivInTopper) {
@@ -350,7 +349,7 @@ class Calendar {
     this.currentDisplayedDate.setMonth(this.currentDisplayedDate.getMonth() - 1);
 
     if (this.currentDisplayedDate.getMonth() === 11) {
-      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear() - 1);
+      this.currentDisplayedDate.setFullYear(this.currentDisplayedDate.getFullYear());
     }
 
     const mainCalenDiv = mainDivInTopper.parentNode.nextElementSibling;
@@ -381,8 +380,7 @@ class Calendar {
     mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
-    let inputDate = mainCalenDiv.previousElementSibling;
-    inputDate.value = formattedDate;
+    this.inputDate.value = formattedDate;
   }
 }
 
