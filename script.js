@@ -60,17 +60,7 @@ class Calendar {
     let mainDivInTopper = document.createElement('div');
     mainDivInTopper.classList.add('mainDivInTopper');
     mainDivInTopper.addEventListener('click', () => {
-      const yearSelectionVisible = mainDivInTopper.classList.contains('year-selection-visible');
-
-      if (yearSelectionVisible) {
-        mainDivInTopper.classList.remove('year-selection-visible');
-        leftDivIntopper.classList.remove('change-month-button-hidden');
-        rightDivInTopper.classList.remove('change-month-button-hidden');
-      } else {
-        mainDivInTopper.classList.add('year-selection-visible');
-        leftDivIntopper.classList.add('change-month-button-hidden');
-        rightDivInTopper.classList.add('change-month-button-hidden');
-      }
+      this.toggleClassesToCalHeader(mainDivInTopper, leftDivIntopper, rightDivInTopper);
 
       this.openDateSelection(
         calendarDiv,
@@ -113,6 +103,20 @@ class Calendar {
 
     // Dispatch 'change' event with the current date
     this.setCurrentDate(mainDivInTopper, windowDiv, calendarDiv);
+  }
+
+  toggleClassesToCalHeader(mainDivInTopper, leftDivIntopper, rightDivInTopper) {
+    const yearSelectionVisible = mainDivInTopper.classList.contains('year-selection-visible');
+
+    if (yearSelectionVisible) {
+      mainDivInTopper.classList.remove('year-selection-visible');
+      leftDivIntopper.classList.remove('change-month-button-hidden');
+      rightDivInTopper.classList.remove('change-month-button-hidden');
+    } else {
+      mainDivInTopper.classList.add('year-selection-visible');
+      leftDivIntopper.classList.add('change-month-button-hidden');
+      rightDivInTopper.classList.add('change-month-button-hidden');
+    }
   }
 
   setCurrentDate(mainDivInTopper, windowDiv, calendarDiv) {
