@@ -432,22 +432,7 @@ class Calendar {
     const calendarTable = this.generateCalendarTable(year, month);
     mainCalenDiv.appendChild(calendarTable);
 
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
+    mainDivInTopper.textContent = `${this.monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
     this.inputDate.value = formattedDate;
@@ -474,22 +459,7 @@ class Calendar {
     const calendarTable = this.generateCalendarTable(year, month);
     mainCalenDiv.appendChild(calendarTable);
 
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    mainDivInTopper.textContent = `${monthNames[month]} ${year}`;
+    mainDivInTopper.textContent = `${this.monthNames[month]} ${year}`;
 
     const formattedDate = `${year}-${(month + 1).toString().padStart(2, '0')}-01`;
     this.inputDate.value = formattedDate;
