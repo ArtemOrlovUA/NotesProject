@@ -26,6 +26,11 @@
   overflow-x: hidden;
 }
 
+.mainCalenDiv {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
 .mainCalendar-Div-hidden {
   display: none;
 }
@@ -100,6 +105,10 @@ th.day-of-week {
   background-color: #716041;
 }
 
+.change-month-button-hidden {
+  display: none;
+}
+
 .mainDivInTopper {
   width: 13vw;
   text-align: center;
@@ -113,6 +122,10 @@ th.day-of-week {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
+}
+
+.year-selection-visible {
+  width: 17vw;
 }
 
 .leftDivIntopper {
@@ -165,10 +178,39 @@ th.day-of-week {
   display: flex;
 }
 
+.months-table {
+  width: 100%;
+  height: 65%;
+  table-layout: fixed;
+}
+
+.go-Back-Button {
+  background-color: #eea216;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: Montserrat;
+  font-size: 0.8rem;
+}
+
+.go-Back-Button:hover {
+  background-color: #885903;
+  color: white;
+}
+
 .cell-with-month {
-  background-color: #ebae3c;
+  background-color: #e9a01b;
   color: white;
   transition: 0.2s;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid white;
+  width: 33.33%;
+  height: 25%;
+  cursor: pointer;
 }
 
 .cell-with-month:hover {
